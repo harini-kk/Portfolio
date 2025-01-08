@@ -1,7 +1,7 @@
 // Import images
-import WebImage1 from '../images/shopify.png';
-import WebImage2 from '../images/apostrophecms.png';
-import MobileImage1 from '../images/wally.png';
+import WebImage1 from '../images/placeholder.jpg';
+import WebImage2 from '../images/placeholder.jpg';
+import MobileImage1 from '../images/placeholder.jpg';
 import MobileImage2 from '../images/mobile-project-2.jpg';
 import UIImage1 from '../images/ui-project-1.jpg';
 import UIImage2 from '../images/ui-project-2.jpg';
