@@ -1,14 +1,50 @@
-import Button from '../reusable/Button';
-import FormInput from '../reusable/FormInput';
+import { useState } from "react";
+import Button from "../reusable/Button";
+import FormInput from "../reusable/FormInput";
 
 const ContactForm = () => {
+	const [formData, setFormData] = useState({
+		name: "",
+		email: "",
+		message: "",
+	});
+
+	const handleInputChange = (e) => {
+		const { name, value } = e.target;
+		setFormData((prevData) => ({ ...prevData, [name]: value }));
+	};
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		console.log("Form Data Submitted:", formData); // Debugging
+
+		const { name, email, message } = formData;
+
+		try {
+			const response = await fetch("https://0911-183-82-33-197.ngrok-free.app/enquiry", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ name, email, message }),
+			});
+
+			if (response.ok) {
+				alert("Message sent successfully!");
+			} else {
+				alert("Failed to send the message. Please try again.");
+			}
+		} catch (error) {
+			console.error("Error sending message:", error);
+			alert("An error occurred. Please try again.");
+		}
+	};
+
 	return (
 		<div className="w-full lg:w-1/2">
 			<div className="leading-loose">
 				<form
-					onSubmit={(e) => {
-						e.preventDefault();
-					}}
+					onSubmit={handleSubmit}
 					className="max-w-xl m-4 p-6 sm:p-10 bg-secondary-light dark:bg-secondary-dark rounded-xl shadow-xl text-left"
 				>
 					<p className="font-general-medium text-primary-dark dark:text-primary-light text-2xl mb-8">
@@ -22,6 +58,7 @@ const ContactForm = () => {
 						inputName="name"
 						placeholderText="Your Name"
 						ariaLabelName="Name"
+						onChange={handleInputChange}
 					/>
 					<FormInput
 						inputLabel="Email"
@@ -31,15 +68,7 @@ const ContactForm = () => {
 						inputName="email"
 						placeholderText="Your email"
 						ariaLabelName="Email"
-					/>
-					<FormInput
-						inputLabel="Subject"
-						labelFor="subject"
-						inputType="text"
-						inputId="subject"
-						inputName="subject"
-						placeholderText="Subject"
-						ariaLabelName="Subject"
+						onChange={handleInputChange}
 					/>
 
 					<div className="mt-6">
@@ -56,6 +85,7 @@ const ContactForm = () => {
 							cols="14"
 							rows="6"
 							aria-label="Message"
+							onChange={handleInputChange}
 						></textarea>
 					</div>
 
